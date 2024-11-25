@@ -1,0 +1,64 @@
+\documentclass[12pt]{article}
+\usepackage{setspace}       % For setting spacing
+\usepackage{titlesec}       % For customizing title styles
+\usepackage{tocloft}        % For customizing the table of contents
+\usepackage{times}          % Use Times New Roman font
+\usepackage[utf8]{inputenc} % Input encoding
+\usepackage[margin=1in]{geometry} % Set margins
+\usepackage{apacite}        % APA-style references
+\usepackage{url}            % For formatting URLs
+
+% Set 1.5 line spacing
+\renewcommand{\baselinestretch}{1.5} 
+
+% Title format
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+
+\begin{document}
+
+% Cover Page
+\begin{titlepage}
+    \centering
+    \vspace*{2in}
+    {\Huge \bfseries Predicting the Winner of Chess Games Using Binary Classificaiton Machine Learning Models \\[2in]}
+    {\Large Seth Schwiethale \\[0.5in]}
+    {\Large December 2, 2024 \\}
+    \vfill
+\end{titlepage}
+
+% Table of Contents
+\newpage
+\tableofcontents
+\newpage
+
+% Content Sections
+\section{Introduction}
+Chess has been one of the world's most popular games for centuries. Over 10 years ago, it was estimated that 605 million adults regularly play chess \cite{fidePressRelease2012}. In the intervening years, the popularity of the game has continued to grow alongside the growth of online gaming where Chess.com alone surpassed 20 million members in 2017 \cite{chessMembers}. With so many chess players around the world, when two meet, how might one predict the winner of the game? This paper compares two Machine Learning models, Logistic Regression and Decision trees, applied to this problem.
+
+This is where the introduction goes. Test ref by \cite{100MLB}.
+
+\section{Research Background}
+
+
+\[
+E_A = \frac{1}{1 + 10^{(R_B - R_A)/400}}
+\]
+
+\section{Research and Methods}
+This is where the setup content goes.
+
+\section{Materials and Data Sources}
+This is where Materials and Data Sources goes.
+
+\section{Results}
+This is where the results go.
+
+\section{Discussion and Conclusions}
+This is where the conclusion goes.
+
+% References in APA format
+\newpage
+\bibliographystyle{apacite}
+\bibliography{references}  % Ensure there is a file named references.bib with your bibliography entries.
+
+\end{document}

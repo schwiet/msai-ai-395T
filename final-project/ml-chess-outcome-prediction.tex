@@ -33,11 +33,16 @@
 
 % Content Sections
 \section{Introduction}
-Chess has been one of the world's most popular games for centuries. Over 10 years ago, it was estimated that 605 million adults regularly play chess \cite{fidePressRelease2012}. In the intervening years, the popularity of the game has continued to grow alongside the growth of online gaming where Chess.com alone surpassed 20 million members in 2017 \cite{chessMembers}. With so many chess players around the world, when two meet, how might one predict the winner of the game? This paper compares two Machine Learning models, Logistic Regression and Decision trees, applied to this problem.
+Chess has been one of the world's most popular games for centuries. Over 10 years ago, it was estimated that 605 million adults regularly play chess \cite{fidePressRelease2012}. In the intervening years, the popularity of the game has continued to grow alongside the growth of online gaming where Chess.com alone surpassed 20 million members in 2017 \cite{chessMembers}. With so many chess players around the world, when two meet, how might one predict the winner of the game? This paper compares the application of two Machine Learning binary classification algorithms to this question.
 
-This is where the introduction goes. Test ref by \cite{100MLB}.
+Chess competitions and online platforms commonly use the Elo rating system to indicate the relative skill level of players. Elo ratings can be used to predict the outcome of a match \cite{chessElo}. While Elo ratings are calculated based on the outcomes of previous games, the question is whether a learning algorithm can incorporate additional features of a game to improve upon the prediction accuracy of Elo alone.
+
+To perform this analysis, multiple models were trained using two fundamental supervised classification Machine Learning algorithms: Logistic Regression and Decision Trees. The accuracy of these models were then compared to each other and to the accuracy of predictions made based solely on each player's Elo rating.
 
 \section{Research Background}
+
+In Machine Learning, classification ``is a problem of automatcially assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two ("White wins", "Black wins"), such a classification problem is called binary classification. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characterstics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw amongst the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurence of draws is much lower, less than 5\% in the data used in this analysis.
+
 
 
 \[

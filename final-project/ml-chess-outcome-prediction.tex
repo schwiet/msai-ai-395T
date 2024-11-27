@@ -7,6 +7,8 @@
 \usepackage[margin=1in]{geometry} % Set margins
 \usepackage{apacite}        % APA-style references
 \usepackage{url}            % For formatting URLs
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, shapes.geometric}
 
 % Set 1.5 line spacing
 \renewcommand{\baselinestretch}{1.5} 
@@ -79,6 +81,40 @@ LogL_{\textbf{w},b} =
 \subsubsection{Limitations}Linear Regression is best suited for problems where there is a linear relationship between the features and labels. This may prove to be a limitation when considering the kinds of features available to describe a chess game. Some features, such as opening strategy and game duration may not have a linear relation to the outcomes of the game.
 
 \subsection{Decision Trees}
+
+``A decision tree is an acyclic graph that can be used to make decisions'' \cite[Chapter 3, Section 3.3]{100MLB}. Each branch in a decision tree evaluates a feature in the example and branches left if the value is below a threshold and branches right, otherwise. Decisions trees for classification problems can be constsructed by supervised learning. ``The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features'' \cite{sklearnDT}. Starting with a root node, the data is split according to each feature and all corresponding thresholds for that feature. The feature and threshold whose resulting split has the largest reduction in entropy (largest information gain) is chosen as the branching feature for that node. The process is repeated recusively to construct the rest of the tree until a stopping condition is met.
+
+Decision tree are easy to visually interpret and, unlike linear regression models, are not sensitive to feature scaling.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  edge from parent/.style = {draw, -{Latex}},
+  every node/.style = {align=center},
+  decision/.style = {draw, diamond, aspect=2, align=center},
+  outcome/.style = {draw, circle, align=center},
+  level 1/.style = {sibling distance=40mm},
+  level 2/.style = {sibling distance=20mm}
+]
+
+% Root node
+\node {x}
+  child {node[decision] {$x_2 < t_1$} % Left child
+    child {node[decision] {$x_1 \ge t_2$} % Left child
+      child {node[outcome] {A}}
+      child {node[outcome] {B}}
+    }
+    child {node[outcome] {B}}
+  };
+
+\end{tikzpicture}
+\caption{A simple decision tree demonstrating decision and leaf nodes.}
+\label{fig:decision-tree}
+\end{figure}
+
+\subsubsection{Considerations}Decision trees can be biased if trained on unbalanced examples. Care must be taken to balance the dateset in preprocessing to reduce bias in the decision tree model.
+
+\subsubsection{Limitation}Decision trees can become complex and are prone to overfitting the training data.
 
 \subsection{Related Work}
 

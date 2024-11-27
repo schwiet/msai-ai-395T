@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 \usepackage{setspace}       % For setting spacing
 \usepackage{titlesec}       % For customizing title styles
+\usepackage{float}
 \usepackage{tocloft}        % For customizing the table of contents
 \usepackage{times}          % Use Times New Roman font
 \usepackage[utf8]{inputenc} % Input encoding
@@ -8,6 +9,10 @@
 \usepackage{apacite}        % APA-style references
 \usepackage{url}            % For formatting URLs
 \usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{listings} % For syntax-highlighted code blocks
+\usepackage{xcolor}
+\usepackage{graphicx}
 \usetikzlibrary{arrows.meta, shapes.geometric}
 
 % Set 1.5 line spacing
@@ -15,6 +20,20 @@
 
 % Title format
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+
+\lstset{
+  basicstyle=\ttfamily\small, % Code font and size
+  keywordstyle=\color{blue},  % Keywords in blue
+  stringstyle=\color{red},    % Strings in red
+  commentstyle=\color{gray},  % Comments in gray
+  numbers=left,               % Line numbers on the left
+  numberstyle=\tiny,          % Line number font size
+  stepnumber=1,               % Line number step
+  frame=single,               % Box around the code
+  tabsize=2,                  % Tab size
+  breaklines=true,            % Line breaking
+  showstringspaces=false      % Do not show spaces in strings
+}
 
 \begin{document}
 
@@ -84,7 +103,7 @@ LogL_{\textbf{w},b} =
 
 ``A decision tree is an acyclic graph that can be used to make decisions'' \cite[Chapter 3, Section 3.3]{100MLB}. Each branch in a decision tree evaluates a feature in the example and branches left if the value is below a threshold and branches right, otherwise. Decisions trees for classification problems can be constsructed by supervised learning. ``The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features'' \cite{sklearnDT}. Starting with a root node, the data is split according to each feature and all corresponding thresholds for that feature. The feature and threshold whose resulting split has the largest reduction in entropy (largest information gain) is chosen as the branching feature for that node. The process is repeated recusively to construct the rest of the tree until a stopping condition is met.
 
-Decision tree are easy to visually interpret and, unlike linear regression models, are not sensitive to feature scaling.
+Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decision-tree}, and unlike linear regression models, decisiont trees are not sensitive to feature scaling.
 
 \begin{figure}[ht]
 \centering
@@ -114,24 +133,135 @@ Decision tree are easy to visually interpret and, unlike linear regression model
 
 \subsubsection{Considerations}Decision trees can be biased if trained on unbalanced examples. Care must be taken to balance the dateset in preprocessing to reduce bias in the decision tree model.
 
-\subsubsection{Limitation}Decision trees can become complex and are prone to overfitting the training data.
+\subsubsection{Limitations}Decision trees can become complex and are prone to overfitting the training data.
 
 \subsection{Related Work}
 
 Logistic Regression has been used to predict outcomes in many games, such as European-Football \cite{Prasetio2016}, where the authors achieved 69\% accuracy with just a few features and Ice Hockey \cite{Chin2023}, where Logistic Regression outperformed Decision Tree, Support Vector Machine and Artificial Neural Network models used as benchmarks from prior work.
 
-\section{Research and Methods}
-This is where the setup content goes.
+TODO
 
 \section{Materials and Data Sources}
-This is where Materials and Data Sources goes.
+
+Training and assessment of the chosen model types was performed using the Chess Game Dataset published at kaggle.com \cite{chessDataset}. The datset contains just over 20,000 games that were collected from the open-source online chess game server Lichess.org \cite{lichessOrg}. The dataset contains 16 raw features or columns with no missing values, Table~\ref{tab:features}.
+
+\subsection{Available Features}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+$\textbf{Feature}$ & Description \\ \hline
+$\textbf{Game ID}$ & A unique string to identify a game \\ \hline
+$\textbf{Rated (T/F)}$ & True if the game was rated \\ \hline
+$\textbf{Start Time}$ & A time stamp indicating when the game began \\ \hline
+$\textbf{End Time}$ & A time stamp indicating when the game ended \\ \hline
+$\textbf{Number of Turns}$ & How many turns were made before the game ended \\ \hline
+$\textbf{Victory Status}$ & A string describing how the game ended \\ \hline
+$\textbf{Winner}$ & A string representing the winner of the game by color, if any \\ \hline
+$\textbf{Time Increment}$ & A string representing how the game was timed \\ \hline
+$\textbf{White Player ID}$ & A string unique to a player \\ \hline
+$\textbf{White Player Rating}$ & Elo rating for player \\ \hline
+$\textbf{Black Player ID}$ & A string unique to a player \\ \hline
+$\textbf{Black Player Rating}$ & Elo rating for player \\ \hline
+$\textbf{Moves}$ & All Moves in Standard Chess Notation \\ \hline
+$\textbf{Opening Eco}$ & Standardised Code for any given opening strategy \\ \hline
+$\textbf{Opening Name}$ & A string representing the opening strategy \\ \hline
+$\textbf{Opening Ply}$ & Number of moves in the opening phase \\ \hline
+\end{tabular}
+\caption{Available features in dataset.}
+\label{tab:features}
+\end{table}
+
+As detailed below, different data preprocessing steps were perform for each learning algorithm, but in both cases, games with no winner were filtered from the dataset, leaving 19,108 examples. Additionally, the following features were either not included in either training dataset or were transformed:
+
+\begin{itemize}[label={}, leftmargin=0pt]
+  \item $\textbf{Drop: id}$ - The Game ID column is a unique identifier and doesn’t provide any predictive value. Including this feature would surely contribute to overfitting, since this unique set of values only exists in the training set.
+  \item $\textbf{Drop: increment\_code}$ - This feature was mistakenly interpreted as the change in Elo rating after the game, so it was not included. Further discussion can be found in $\textbf{Results}$.
+  \item $\textbf{Drop: white\_id and black\_id}$ - The specific goal of the research was to evaluate models that can generalize well, without knowing specifically who the player is.
+  \item $\textbf{Transform: created\_at and last\_move\_at}$ - The start and end time were decided to be less predictive than the duration of a game, so these two columns were transformed into a new column: $\textbf{duration}$.
+  \item $\textbf{Drop: moves}$ - The moves column contains move sequences, which are high-dimensional and computationally expensive to process for simple predictions. Further discussion can be found in $\textbf{Results}$.
+  \item $\textbf{Drop: opening\_name}$ - Redundant interpretation of $\textbf{opening\_eco}$.
+  \item $\textbf{Transform: white\_player\_rating and black\_player\_rating}$ - Convert these features to a single feature which is the difference between the two players' ratings: $\textbf{rating\_diff}$. Positive numbers mean white has a higher rating and negative numbers mean black has a higher rating.
+\end{itemize}
+
+\section{Research and Methods}
+For this research, implementations of logistic regression and decision tree learning algorithms from scikit learn, the Python machine learning library, were used.
+
+\subsection{Logistic Regression Model Training}
+
+\subsubsection{Data Preprocessing}
+
+\noindent\textbf{Encoding and Normalizing Numerical Features}
+
+In order to optimize the performance of the logistic regression learner, the following steps were taken to preprocess the dataset before training. Generally, this included: removing columns with no meaningful predictive value for this research's purpose, encoding string-based features to numerical features on a case-by-case basis, normalizing resulting features and checking for multicollinearity amongst remaining features.
+
+
+\begin{itemize}[label={}, leftmargin=0pt]
+  \item $\textbf{Normalize: rating\_diff, turns, duration}$ - Normalize features by scaling between 0 and 1, using Z-Score, to improve model performance.
+
+  \begin{lstlisting}[language=Python, caption={example: normalizing ratings}]
+    # create a new column for rating difference
+    df['rating_diff'] = df['white_rating'] - df['black_rating']
+    # normalize with Z-Score
+    # calculate mean and standard deviation for rating_ddiff
+    rating_diff_mean = df['rating_diff'].mean()
+    rating_diff_std = df['rating_diff'].std()
+    # normalize rating_diff
+    df['rating_diff_normalized'] = (df['rating_diff'] - rating_diff_mean) / rating_diff_std
+  \end{lstlisting}
+
+  \item $\textbf{Encode: opening\_eco}$ - The opening ECO feature represents chess opening strategies coded with a classification system. To utilize this feature in a logistic regression learner, it was decided to convert each code instance to a count of how many times that opening was used in the dataset. This new feature can be thought of as the opening's popularity. The newly encoded opening ECO was finally normalized. Other encodings for this feature can be imagined, such as ranking openings by how often they resulted in a win for white.
+\end{itemize}
+
+\noindent\textbf{Reducing Multicollinearity}
+
+Next, the preprocessed features were analyzed for multicollinearity with a correlation matrix, as shown in Figure~\ref{fig:corr-matrix-1}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{corr-matrix-1.png}
+\caption{Initial Correlation Matrix for Logistic Regression Features}
+\label{fig:corr-matrix-1}
+\end{figure}
+
+The ratings for black and white players were unsurprisingly correlated (in online games, players of similar experience tend to play each other). These features were not used to train the model. The rating difference between players was used, instead.
+
+$\textbf{opening\_eco\_encoded}$ and $\textbf{opening\_ply}$ are also moderately correlated, so PCA was applied to reduce dimensionality in the data set. The principal component of these two features was given the name $\textbf{pca\_opening\_features}$. The resulting correlation matrix is shown in Figure~\ref{fig:corr-matrix-2}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{corr-matrix-2.png}
+\caption{Final Correlation Matrix for Logistic Regression Features}
+\label{fig:corr-matrix-2}
+\end{figure}
+
+\subsubsection{Training and Evaluation}
+
+The dataset was split into training and testing sets, 80\% and 20\%, respectively. The scikit-learn LogisticRegression implementation was used to fit the models to the training data. Many models were produced, each using a different set of features. Each model was evaluated with the testing set, using the metrics: Accuracy, precision, recall and F1 Score.
+
+\subsection{Logistic Regression Model Training}
+
+\subsubsection{Data Preprocessing}
+
+\subsubsection{Training and Evaluation}
 
 \section{Results}
+
+\subsection{Predicting with Elo Rating as Baseline}
 This is where the results go.
 
-\section{Discussion and Conclusions}
-This is where the conclusion goes.
+\subsection{Logistic Regression}
 
+\subsection{Decision Trees}
+
+\section{Discussion and Conclusions}
+
+\subsection{Limitations to approach}
+
+\subsection{Future Work}
+
+\subsubsection{Additional Feature Enginearing}
 % References in APA format
 \newpage
 \bibliographystyle{apacite}

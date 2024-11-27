@@ -41,13 +41,48 @@ To perform this analysis, multiple models were trained using two fundamental sup
 
 \section{Research Background}
 
-In Machine Learning, classification ``is a problem of automatcially assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two ("White wins", "Black wins"), such a classification problem is called binary classification. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characterstics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw amongst the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurence of draws is much lower, less than 5\% in the data used in this analysis.
-
+\subsection{Elo Ratings and Outcome Prediction}
+The Elo rating system was created by Arpad Elo and adopted by the U.S. Chess Federation in 1960. ``Each player's Elo rating is represented by a number that reflects that person's results in previous rated games. After each rated game, their ratings are adjusted according to the outcome of the encounter.'' \cite{chessElo}. Given the Elo rating of each player, the expected outcome can be calculated with the following formula:
 
 
 \[
 E_A = \frac{1}{1 + 10^{(R_B - R_A)/400}}
 \]
+
+Where $E_A$ is the expectation that player $A$ will win and $R_A$ and $R_B$ are the Elo ratings of players $A$ and $B$, respectively. An $E_A$ value $> 0.5$ predicts that will win with increasing probability up to $E_A == 1$.
+
+\subsection{Binary Classification}
+
+In Machine Learning, classification ``is a problem of automatcially assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two ("White wins", "Black wins"), such a classification problem is called binary classification. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characterstics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw amongst the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurence of draws is much lower, less than 5\% in the data used in this analysis.
+
+\subsection{Logistic Regression}
+
+Logistic Regression is a supervised binary classification learning alogorithm that uses the standard logistic function, often referred to as the sigmoid function $f_{\textbf{w},b}(\textbf{x})$, whose codomain is $(0, 1)$, to represent the probability that an example is labeled 1. Logistic Regression is trained on a dataset using maximum likelihood optimization by a numerical procedure, such as gradient descent \cite[Chapter 9, Section 9.3]{ShalevShwartz2014}.
+
+\[
+f_{\textbf{w},b}(\textbf{x}) := \frac{1}{1 + \exp(-(\langle\textbf{w}, \textbf{x}\rangle + b))}
+\]
+
+where $z$ is the inner product of two vectors, the example's features $\textbf{x}$ and the model's learned parameters $\textbf{w}$ plus parameter $b$: $z = \langle\textbf{w}, \textbf{x}\rangle + b$. During training, the log-likelihood $LogL_{\textbf{w},b}$ is maximized for the model's parameters:
+
+\[
+LogL_{\textbf{w},b} =
+\sum_{i=1}^N y_i\ln{f_{\textbf{w},b}(\textbf{x}) + (1-y_i)\ln(1 - f_{\textbf{w},b}(\textbf{x}))}
+\]
+
+\noindent Where $y_i$ is the label for example $i$.
+
+\vspace{12pt}After training, the model has parameters $\textbf{w}$ and $b$ that maximize likelihood that the training dataset is according to the resulting model. These parameters are then used to predict labels for a test set. The results are then used to evaluate the accuracy of the model.
+
+\subsubsection{Considerations}Linear Regression is sensitive to the scale of features. Care must be taken when preprocessing the dataset for training to ensure optimal performance.
+
+\subsubsection{Limitations}Linear Regression is best suited for problems where there is a linear relationship between the features and labels. This may prove to be a limitation when considering the kinds of features available to describe a chess game. Some features, such as opening strategy and game duration may not have a linear relation to the outcomes of the game.
+
+\subsection{Decision Trees}
+
+\subsection{Related Work}
+
+Logistic Regression has been used to predict outcomes in many games, such as European-Football \cite{Prasetio2016}, where the authors achieved 69\% accuracy with just a few features and Ice Hockey \cite{Chin2023}, where Logistic Regression outperformed Decision Tree, Support Vector Machine and Artificial Neural Network models used as benchmarks from prior work.
 
 \section{Research and Methods}
 This is where the setup content goes.

@@ -173,20 +173,20 @@ $\textbf{Opening Ply}$ & Number of moves in the opening phase \\ \hline
 \label{tab:features}
 \end{table}
 
-As detailed below, different data preprocessing steps were perform for each learning algorithm, but in both cases, games with no winner were filtered from the dataset, leaving 19,108 examples. Additionally, the following features were either not included in either training dataset or were transformed:
+As detailed below, different data preprocessing steps were performed for each learning algorithm, but in both cases, games with no winner were filtered from the dataset, leaving 19,108 examples. Additionally, the following features were either not included in either training dataset or were transformed:
 
 \begin{itemize}[label={}, leftmargin=0pt]
   \item $\textbf{Drop: id}$ - The Game ID column is a unique identifier and doesn’t provide any predictive value. Including this feature would surely contribute to overfitting, since this unique set of values only exists in the training set.
-  \item $\textbf{Drop: increment\_code}$ - This feature was mistakenly interpreted as the change in Elo rating after the game, so it was not included. Further discussion can be found in $\textbf{Results}$.
+  \item $\textbf{Drop: increment\_code}$ - This feature was mistakenly interpreted as the change in Elo rating after the game, so it was not included. Further discussion can be found in Section~\ref{sec:discussion}.
   \item $\textbf{Drop: white\_id and black\_id}$ - The specific goal of the research was to evaluate models that can generalize well, without knowing specifically who the player is.
   \item $\textbf{Transform: created\_at and last\_move\_at}$ - The start and end time were decided to be less predictive than the duration of a game, so these two columns were transformed into a new column: $\textbf{duration}$.
-  \item $\textbf{Drop: moves}$ - The moves column contains move sequences, which are high-dimensional and computationally expensive to process for simple predictions. Further discussion can be found in $\textbf{Results}$.
+  \item $\textbf{Drop: moves}$ - The moves column contains move sequences, which are high-dimensional and computationally expensive to process for simple predictions. Further discussion can be found in Section~\ref{sec:discussion}.
   \item $\textbf{Drop: opening\_name}$ - Redundant interpretation of $\textbf{opening\_eco}$.
   \item $\textbf{Transform: white\_player\_rating and black\_player\_rating}$ - Convert these features to a single feature which is the difference between the two players' ratings: $\textbf{rating\_diff}$. Positive numbers mean white has a higher rating and negative numbers mean black has a higher rating.
 \end{itemize}
 
 \section{Research and Methods}
-For this research, implementations of logistic regression and decision tree learning algorithms from scikit learn, the Python machine learning library, were used.
+For this research, implementations of logistic regression and decision tree learning algorithms from scikit learn, the Python machine learning library, were used. Before training each model, some preprocessing of data was performed to optimize the performance of the respective learning algorithm. For each algorithm, multiple models were trained with varying feature sets. For decision trees, the hyperparameters were also tuned for optimal performance. Each model was evaluated by the metrics: Accuracy, precision, recall and F1 Score. The most accurate model from each algorithm is compared in Section~\ref{sec:results}.
 
 \subsection{Logistic Regression Model Training}
 
@@ -240,13 +240,23 @@ $\textbf{opening\_eco\_encoded}$ and $\textbf{opening\_ply}$ are also moderately
 
 The dataset was split into training and testing sets, 80\% and 20\%, respectively. The scikit-learn LogisticRegression implementation was used to fit the models to the training data. Many models were produced, each using a different set of features. Each model was evaluated with the testing set, using the metrics: Accuracy, precision, recall and F1 Score.
 
-\subsection{Logistic Regression Model Training}
+\subsection{Decision Tree Model Training}
 
 \subsubsection{Data Preprocessing}
+Less preprocessing was required for the decision tree learner than was for the logistic regression learner because decision trees are not sensitive to feature scaling. However, while decision trees can theoretically handle both numerical and categorical data, the scikit-learn implementation does not support catergorical variables \cite{sklearnDT}, so features of interest with categorical representations were encoded with an appropriate numerical representation.
+
+\begin{itemize}[label={}, leftmargin=0pt]
+  \item \textbf{Encode: rated} - boolean feature encoded to $False \rightarrow 0$ and $True \rightarrow 1$
+  \item \textbf{Encode: winner} - label encoded to $white \rightarrow 0$ and $black \rightarrow 1$
+  \item $\textbf{Encode: opening\_eco}$ - The opening ECO feature represents chess opening strategies coded with a classification system. To utilize this feature in a decision tree learner, as in the logistic regression case, it was decided to convert each code instance to a count of how many times that opening was used in the dataset. This new feature can be thought of as the opening's popularity. 
+\end{itemize}
 
 \subsubsection{Training and Evaluation}
+The dataset was split into training and testing sets, 80\% and 20\%, respectively. The scikit-learn DecisionTree implementation was used to fit the models to the training data. Many models were produced, each using a different set of features. Additionally, the scikit-learn's $GridSearchCV$ \cite{sklearnGSCV} algorithm was used to perform an exhaustive search for optimum hyperparameters: $max\_depth$, $min\_samples\_split$, $min\_samples\_leaf$ and $max\_features$. Each model was evaluated with the testing set, using the metrics: Accuracy, precision, recall and F1 Score.
+
 
 \section{Results}
+\label{sec:results}
 
 \subsection{Predicting with Elo Rating as Baseline}
 This is where the results go.
@@ -256,6 +266,7 @@ This is where the results go.
 \subsection{Decision Trees}
 
 \section{Discussion and Conclusions}
+\label{sec:discussion}
 
 \subsection{Limitations to approach}
 

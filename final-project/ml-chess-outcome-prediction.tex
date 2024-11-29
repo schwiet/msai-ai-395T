@@ -132,11 +132,13 @@ Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decisi
 \subsubsection{Limitations}Decision trees can become complex and are prone to overfitting the training data.
 
 \subsection{Related Work}
+Historically, sports and game prediction models used statistical approaches - e.g. \cite{Clarke1995} \cite{Bailey2006}. But around the 2010s, as datasets grew, the popularity of machine learning for the domain of sports analysis experienced a significant rise with the publishing of seminal papers like \cite{Constantinou2012}.
 
-Much research has explored using logistic regression for prediction models, since ``A common type of prediction problem is generalized linear regression, which includes linear regression, logistic regression, other generalized linear
-models'' \cite{Gordon1999}. Particularly of relevance to this research, logistic regression has been used to predict outcomes in many games, such as European-Football \cite{Prasetio2016}, where the authors achieved 69\% accuracy with just a few features and Ice Hockey \cite{Chin2023}, where logistic regression models outperformed Decision Tree, Support Vector Machine and Artificial Neural Network models used as benchmarks from prior work \cite{Pischedda2014} \cite{Igiri2014}. This paper evaluates logistic regression in a similar way, but applied to the game of chess, which differs in many ways from the sports for which most similar analysis has been done.
+The use of logistic regression for prediction models has been explored by many researchers, because ``A common type of prediction problem is generalized linear regression, which includes linear regression, logistic regression, other generalized linear models'' \cite{Gordon1999}. Particularly of relevance to this research, logistic regression has been used to predict outcomes in many games, such as European-Football \cite{Prasetio2016}, where the authors achieved 69\% accuracy with just a few features and Ice Hockey \cite{Chin2023}, where logistic regression models outperformed Decision Tree, Support Vector Machine and Artificial Neural Network models used as benchmarks from prior work \cite{Pischedda2014} \cite{Igiri2014}.
 
-TODO
+Decision Trees have also been researched in relation to predicting the outcome of other games, such as Cricket \cite{Kumar2018}, where the authors' decision tree model had an accuracy of $55.1\%$ and football \cite{Jaeyalakshmi2023}, where the authors built a model with $67.9\%$ accuracy.
+
+A search for prior research of machine learning techniques applied to chess generally yielded research focused on creating chess-playing engines, AI that can predict the best next move for in-game competitve play; a problem not closely related to the aim of this research. This paper evaluates logistic regression and decision trees in a way that is similar to the research referenced above, but applied to the game of chess, which differs in many ways from the sports for which most similar analysis has been done.
 
 \section{Materials and Data Sources}
 \label{sec:dataset}
@@ -146,7 +148,7 @@ Training and assessment of the chosen model types was performed using the Chess 
 \subsection{Available Features}
 \label{sec:features}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|}
 \hline

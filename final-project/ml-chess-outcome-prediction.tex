@@ -173,6 +173,7 @@ $\textbf{Opening Ply}$ & Number of moves in the opening phase \\ \hline
 \label{tab:features}
 \end{table}
 
+\subsection{General Preprocessing}
 As detailed below, different data preprocessing steps were performed for each learning algorithm, but in both cases, games with no winner were filtered from the dataset, leaving 19,108 examples. Additionally, the following features were either not included in either training dataset or were transformed:
 
 \begin{itemize}[label={}, leftmargin=0pt]
@@ -259,11 +260,111 @@ The dataset was split into training and testing sets, 80\% and 20\%, respectivel
 \label{sec:results}
 
 \subsection{Predicting with Elo Rating as Baseline}
-This is where the results go.
+To evaluate each model's predictive power, predictions based solely on players' Elo rating were used as a baseline. 
+
+\subsubsection{Method}
+This baseline evaluation was performed over the entire dataset, minus rows with no winner. The heuristic used was simply:
+
+\begin{itemize}
+  \item If \textit{rating\_diff} is positive or zero $\rightarrow$ predict \textbf{White Wins}
+  \item If \textit{rating\_diff} is negative $\rightarrow$ predict \textbf{Black Wins}
+\end{itemize}
+
+ Recall how the \textit{rating\_diff} feature was encoded: $\textit{white\_rating} - \textit{black\_rating}$. This heuristic simply predicts that the player with the highest Elo rating will win. If players have equal ratings, there is assumed to be a first-move advantage \cite{Streeter1946}, giving white the edge.
+
+\subsubsection{Evaluation}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+$\textbf{Accuracy}$ & $0.651$ \\ \hline
+$\textbf{Precision}$ & $0.65$ \\ \hline
+$\textbf{Recall}$ & $0.65$ \\ \hline
+$\textbf{F1 Score}$ & $0.65$ \\ \hline
+\end{tabular}
+\caption{Elo Heuristic Baseline.}
+\label{tab:el-baseline}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{conf-matrix-elo.png}
+\caption{Confusion Matrix for Elo Heuristic.}
+\label{fig:conf-matrix-elo}
+\end{figure}
 
 \subsection{Logistic Regression}
 
+\subsubsection{Method}
+Several Models with differing sets of features were trained and evaluated. The model with the highest accuracy was trained with the following features:
+
+\begin{itemize}
+  \item\textit{turns\_normalized}
+  \item\textit{duration\_normalized}
+  \item\textit{rating\_diff\_normalized}
+  \item\textit{rated\_encoded}
+  \item\textit{pca\_opening\_features}
+\end{itemize}
+
+\subsubsection{Evaluation}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+$\textbf{Accuracy}$ & $0.655$ \\ \hline
+$\textbf{Precision}$ & $0.66$ \\ \hline
+$\textbf{Recall}$ & $0.66$ \\ \hline
+$\textbf{F1 Score}$ & $0.66$ \\ \hline
+\end{tabular}
+\caption{Logistic Regression Model Evaluation.}
+\label{tab:lr-eval}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{conf-matrix-logit.png}
+\caption{Confusion Matrix for Logistic Regression Model.}
+\label{fig:conf-matrix-logit}
+\end{figure}
+
 \subsection{Decision Trees}
+
+\subsubsection{Method}
+Many Decision Tree models were built, trained with different sets of features and hyperparameter values. The model with the highest accuracy was trained with the following features and hypervalues:
+
+\begin{itemize}
+  \item\textbf{Feature}: \textit{turns}
+  \item\textbf{Feature}: \textit{rated\_encoded}
+  \item\textit{max\_depth}: \textbf{None}
+  \item\textit{max\_features}: \textbf{None}
+  \item\textit{min\_samples\_leaf}: \textbf{$5$}
+  \item\textit{min\_samples\_split}: \textbf{$2$}
+\end{itemize}
+
+\subsubsection{Evaluation}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+$\textbf{Accuracy}$ & $0.796$ \\ \hline
+$\textbf{Precision}$ & $0.80$ \\ \hline
+$\textbf{Recall}$ & $0.80$ \\ \hline
+$\textbf{F1 Score}$ & $0.80$ \\ \hline
+\end{tabular}
+\caption{Decision Tree Model Evaluation.}
+\label{tab:dt-eval}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{conf-matrix-dt.png}
+\caption{Confusion Matrix for Decision Tree Model.}
+\label{fig:conf-matrix-dt}
+\end{figure}
+
 
 \section{Discussion and Conclusions}
 \label{sec:discussion}
@@ -277,6 +378,9 @@ This is where the results go.
 \subsection{Future Work}
 
 \subsubsection{Additional Feature Enginearing}
+\subsubsection{Ensemble Learning}
+\subsubsection{Neural Network}
+
 % References in APA format
 \newpage
 \bibliographystyle{apacite}

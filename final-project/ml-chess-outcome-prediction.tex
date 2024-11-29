@@ -131,21 +131,24 @@ Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decisi
 \label{fig:decision-tree}
 \end{figure}
 
-\subsubsection{Considerations}Decision trees can be biased if trained on unbalanced examples. Care must be taken to balance the dateset in preprocessing to reduce bias in the decision tree model.
+\subsubsection{Considerations}Decision trees can be biased (overfitting) if trained on unbalanced examples. Care must be taken to balance the dateset in preprocessing to reduce bias in the decision tree model.
 
 \subsubsection{Limitations}Decision trees can become complex and are prone to overfitting the training data.
 
 \subsection{Related Work}
 
-Logistic Regression has been used to predict outcomes in many games, such as European-Football \cite{Prasetio2016}, where the authors achieved 69\% accuracy with just a few features and Ice Hockey \cite{Chin2023}, where Logistic Regression outperformed Decision Tree, Support Vector Machine and Artificial Neural Network models used as benchmarks from prior work.
+Much research has explored using logistic regression for prediction models, since ``A common type of prediction problem is generalized linear regression, which includes linear regression, logistic regression, other generalized linear
+models'' \cite{Gordon1999}. Particularly of relevance to this research, logistic regression has been used to predict outcomes in many games, such as European-Football \cite{Prasetio2016}, where the authors achieved 69\% accuracy with just a few features and Ice Hockey \cite{Chin2023}, where logistic regression models outperformed Decision Tree, Support Vector Machine and Artificial Neural Network models used as benchmarks from prior work \cite{Pischedda2014} \cite{Igiri2014}. This paper evaluates logistic regression in a similar way, but applied to the game of chess, which differs in many ways from the sports for which most similar analysis has been done.
 
 TODO
 
 \section{Materials and Data Sources}
+\label{sec:dataset}
 
 Training and assessment of the chosen model types was performed using the Chess Game Dataset published at kaggle.com \cite{chessDataset}. The datset contains just over 20,000 games that were collected from the open-source online chess game server Lichess.org \cite{lichessOrg}. The dataset contains 16 raw features or columns with no missing values, Table~\ref{tab:features}.
 
 \subsection{Available Features}
+\label{sec:features}
 
 \begin{table}[h!]
 \centering
@@ -187,6 +190,7 @@ As detailed below, different data preprocessing steps were performed for each le
 \end{itemize}
 
 \section{Research and Methods}
+\label{sec:methods}
 For this research, implementations of logistic regression and decision tree learning algorithms from scikit learn, the Python machine learning library, were used. Before training each model, some preprocessing of data was performed to optimize the performance of the respective learning algorithm. For each algorithm, multiple models were trained with varying feature sets. For decision trees, the hyperparameters were also tuned for optimal performance. Each model was evaluated by the metrics: Accuracy, precision, recall and F1 Score. The most accurate model from each algorithm is compared in Section~\ref{sec:results}.
 
 \subsection{Logistic Regression Model Training}
@@ -369,17 +373,40 @@ $\textbf{F1 Score}$ & $0.80$ \\ \hline
 \section{Discussion and Conclusions}
 \label{sec:discussion}
 
+The aim of this research was to evaluate whether a machine learning algorithm could incorporate features of a chess game to improve upon the outcome prediction accuracy of Elo ratings alone. First, the accuracy of an Elo rating-based heuristic was assessed using the Chess Game Dataset (Lichess), detailed in Section~\ref{sec:dataset}. Next, to accomplish the goal of this effort, two classification learning algorithms were explored: logistic regression and decision trees. As detailed in Section~\ref{sec:methods}, many models were built, using varying feature sets and hyperparameter values, to yield candidate models with the best accuracy. No logistic regression model was found to improve upon the Elo heuristic approach. However, decision tree models were trained with higher outcome prediction accuracy, the best of which yielding an F1 Score of $80\%$ when evaluated with the testing portion of the dataset.
+
+These results suggest that supervised machine learning algorithms can in fact be trained to make more accurate chess game outcome predictions than predicting the outcome based solely on Elo ratings. The implications of these results present both limitations and opportunities, which are discussed below.
+
 \subsection{Limitations to approach}
 
 \subsubsection{Features Used Entail the Game has Ended}
+Most of the features available for training had a temporal dimension, meaning they represented information known only after a game had begun (e.g. \textbf{Opening ECO}) or ended (e.g. \textbf{Number of Turns}). While this research demonstrated that incorporating details about a game in addition to the players' Elo ratings could yield more accurate outcome predictions, the models that were produced generally rely on the fact that the game has been concluded. This assumption places constraints and limitations on the practical application of such models. One can imagine outcome prediction applications that are relevant only before a game has occurred or ended, such as estimating betting odds. The models produced in this research would not have value for such applications. However, this observation does not preclude the possibility of identifying other game features that may be successfully used to train models designed for these applications, but further research would be required. Specific considerations are detailed in Section~\ref{sec:feature-eng}.
 
 \subsubsection{Correlation of Draw Occurence and Player Rating}
+As previously noted, as the ratings of players increase to master level, the occurence of draw outcomes greatly increases. This research limited its models to binary classifiers, focusing solely on models that would produce a winner. Such models are inherently less-accurate when the Elo ratings of players are exceptionally high. Multiclass classifier models would likely be needed to account for this phenomenon. Specific considerations are detailed in Section~\ref{sec:multiclass}.
 
 \subsection{Future Work}
 
 \subsubsection{Additional Feature Enginearing}
+\label{sec:feature-eng}
+Some of the features available in this dataset could provide additional predictive utility before a game has concluded. In particular, the \textbf{Moves} feature (Section~\ref{sec:features}) was not utilized in this research. One could imagine that as the game develops, advantages may become more apparent. Perhaps a model limited to incorporating the first 10 moves could have improved predictive accuracy without relying on features only present at the conclusion of the game.
+
+Another example of a feature in this dataset that could be explored further is \textbf{Opening ECO} (Section~\ref{sec:features}). For this research, the feature was encoded from a coded label of the specific strategy to the strategy's popularity in the dataset. During the analysis of these research reesults, it was considered that a better approach may have been to encode this field according to the relative success of the strategy. For example, strategies could have been encoded with a numerical rank that corresponded to how often the strategy resulted in a win for white. Additional encodings could be considered and evaluated.
+
+Finally, other datasets exist (e.g. Chess Base Database with over 8 million games \cite{chessBaseDb}) and may contain features that provide a better training environment.
+
+\subsubsection{Multiclass Models}
+\label{sec:multiclass}
+To improve accuracy, especially when predicting the outcome of chess games between higher-rated players, multiclass classifiers could be trained to include the three possible chess game outcomes: \textbf{White Wins}, \textbf{Black Wins} and \textbf{Draw}. To accomplish this, a larger dataset would be required; one that includes more games from players of higher rating to provide balanced examples of all outcomes (the dataset used for this research contained less than $5\%$ draws). Such an expanded dataset may present its own challenges, such as introducing bias toward more-advanced game play (models trained mostly on master-level games would not generalize well for lower-level players).
+
+\subsubsection{Explore Additional Machine Learning Algorithms}
+This research was limited to the exploration of two fundamental supervised machine learning classification models. Further research could investigate more advanced models, including but not limited to deep neural networks and ensemble learners.
+
+\subsubsection{Deep Neural Networks}
+With access to more compute power and one of the larger datasets available, datasets with millions of examples, it may be beneficial to try using a deep neural network. Deep Neural Networks may also provide benefits when considering high-dimensional dataset, such as the approach proposed in Section~\ref{sec:multiclass}.
+
 \subsubsection{Ensemble Learning}
-\subsubsection{Neural Network}
+Ensemble Learners could be used to improve the accuracy of the algorithms explored in this research while reducing variance and bias \cite[Chapter 7, Section 7.5]{100MLB}. For example, Gradient boosting is a popular algorithm that combines several weak learners, like shallow decisiont trees into strong learners. Gradient Boosting can handle large, high-dimensional datasets and produce very accurate models \cite{greeksGeeksGB}. This algorithm has promise to further improve on the decision tree approach used in this research
 
 % References in APA format
 \newpage

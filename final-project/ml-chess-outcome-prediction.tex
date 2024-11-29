@@ -1,38 +1,36 @@
 \documentclass[12pt]{article}
-\usepackage{setspace}       % For setting spacing
-\usepackage{titlesec}       % For customizing title styles
+\usepackage{setspace}
+\usepackage{titlesec}
 \usepackage{float}
-\usepackage{tocloft}        % For customizing the table of contents
-\usepackage{times}          % Use Times New Roman font
-\usepackage[utf8]{inputenc} % Input encoding
-\usepackage[margin=1in]{geometry} % Set margins
-\usepackage{apacite}        % APA-style references
-\usepackage{url}            % For formatting URLs
+\usepackage{tocloft}
+\usepackage{times}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{apacite}
+\usepackage{url}
 \usepackage{tikz}
 \usepackage{enumitem}
-\usepackage{listings} % For syntax-highlighted code blocks
+\usepackage{listings}
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usetikzlibrary{arrows.meta, shapes.geometric}
 
-% Set 1.5 line spacing
-\renewcommand{\baselinestretch}{1.5} 
+\renewcommand{\baselinestretch}{1.25} 
 
-% Title format
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
 
 \lstset{
-  basicstyle=\ttfamily\small, % Code font and size
-  keywordstyle=\color{blue},  % Keywords in blue
-  stringstyle=\color{red},    % Strings in red
-  commentstyle=\color{gray},  % Comments in gray
-  numbers=left,               % Line numbers on the left
-  numberstyle=\tiny,          % Line number font size
-  stepnumber=1,               % Line number step
-  frame=single,               % Box around the code
-  tabsize=2,                  % Tab size
-  breaklines=true,            % Line breaking
-  showstringspaces=false      % Do not show spaces in strings
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  commentstyle=\color{gray},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  frame=single,
+  tabsize=2,
+  breaklines=true,
+  showstringspaces=false
 }
 
 \begin{document}
@@ -52,7 +50,6 @@
 \tableofcontents
 \newpage
 
-% Content Sections
 \section{Introduction}
 Chess has been one of the world's most popular games for centuries. Over 10 years ago, it was estimated that 605 million adults regularly play chess \cite{fidePressRelease2012}. In the intervening years, the popularity of the game has continued to grow alongside the growth of online gaming where Chess.com alone surpassed 20 million members in 2017 \cite{chessMembers}. With so many chess players around the world, when two meet, how might one predict the winner of the game? This paper compares the application of two Machine Learning binary classification algorithms to this question.
 
@@ -116,7 +113,6 @@ Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decisi
   level 2/.style = {sibling distance=20mm}
 ]
 
-% Root node
 \node {x}
   child {node[decision] {$x_2 < t_1$} % Left child
     child {node[decision] {$x_1 \ge t_2$} % Left child

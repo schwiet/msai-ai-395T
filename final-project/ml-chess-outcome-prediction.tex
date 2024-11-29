@@ -71,7 +71,7 @@ Where $E_A$ is the expectation that player $A$ will win and $R_A$ and $R_B$ are 
 
 \subsection{Binary Classification}
 
-In Machine Learning, classification ``is a problem of automatcially assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two ("White wins", "Black wins"), such a classification problem is called binary classification. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characterstics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw amongst the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurence of draws is much lower, less than 5\% in the data used in this analysis.
+In Machine Learning, classification ``is a problem of automatcially assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two ("White wins", "Black wins"), such a classification problem is called binary classification \cite{Allwein2000}. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characterstics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw amongst the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurence of draws is much lower, less than 5\% in the data used in this analysis.
 
 \subsection{Logistic Regression}
 
@@ -92,15 +92,15 @@ LogL_{\textbf{w},b} =
 
 \vspace{12pt}After training, the model has parameters $\textbf{w}$ and $b$ that maximize likelihood that the training dataset is according to the resulting model. These parameters are then used to predict labels for a test set. The results are then used to evaluate the accuracy of the model.
 
-\subsubsection{Considerations}Linear Regression is sensitive to the scale of features. Care must be taken when preprocessing the dataset for training to ensure optimal performance.
+\subsubsection{Considerations}Logistic Regression is sensitive to the scale of features \cite{Alon1997}. Care must be taken when preprocessing the dataset for training to ensure optimal performance.
 
-\subsubsection{Limitations}Linear Regression is best suited for problems where there is a linear relationship between the features and labels. This may prove to be a limitation when considering the kinds of features available to describe a chess game. Some features, such as opening strategy and game duration may not have a linear relation to the outcomes of the game.
+\subsubsection{Limitations}Logistic Regression is best suited for problems where there is a linear relationship between the features and labels. This may prove to be a limitation when considering the kinds of features available to describe a chess game. Some features, such as opening strategy and game duration may not have a linear relation to the outcomes of the game.
 
 \subsection{Decision Trees}
 
 ``A decision tree is an acyclic graph that can be used to make decisions'' \cite[Chapter 3, Section 3.3]{100MLB}. Each branch in a decision tree evaluates a feature in the example and branches left if the value is below a threshold and branches right, otherwise. Decisions trees for classification problems can be constsructed by supervised learning. ``The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features'' \cite{sklearnDT}. Starting with a root node, the data is split according to each feature and all corresponding thresholds for that feature. The feature and threshold whose resulting split has the largest reduction in entropy (largest information gain) is chosen as the branching feature for that node. The process is repeated recusively to construct the rest of the tree until a stopping condition is met.
 
-Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decision-tree}, and unlike linear regression models, decisiont trees are not sensitive to feature scaling.
+Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decision-tree}, and unlike logistic regression models, decision trees are not sensitive to feature scaling.
 
 \begin{figure}[ht]
 \centering
@@ -244,7 +244,7 @@ The dataset was split into training and testing sets, 80\% and 20\%, respectivel
 \subsection{Decision Tree Model Training}
 
 \subsubsection{Data Preprocessing}
-Less preprocessing was required for the decision tree learner than was for the logistic regression learner because decision trees are not sensitive to feature scaling. However, while decision trees can theoretically handle both numerical and categorical data, the scikit-learn implementation does not support catergorical variables \cite{sklearnDT}, so features of interest with categorical representations were encoded with an appropriate numerical representation.
+Less preprocessing was required for the decision tree learner than was for the logistic regression learner because decision trees are not sensitive to feature scaling. However, while decision trees can theoretically handle both numerical and categorical data, the scikit-learn implementation does not support catergorical variables \cite{sklearnDT} (scikit-learn uses an optimized version of CART \cite{classificationTrees1984}), so features of interest with categorical representations were encoded with an appropriate numerical representation.
 
 \begin{itemize}[label={}, leftmargin=0pt]
   \item \textbf{Encode: rated} - boolean feature encoded to $False \rightarrow 0$ and $True \rightarrow 1$

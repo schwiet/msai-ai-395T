@@ -132,7 +132,7 @@ Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decisi
 \subsubsection{Limitations}Decision trees can become complex and are prone to overfitting the training data.
 
 \subsection{Related Work}
-Historically, sports and game prediction models used statistical approaches - e.g. \cite{Clarke1995} \cite{Bailey2006}. But around the 2010s, as datasets grew, the popularity of machine learning for the domain of sports analysis experienced a significant rise with the publishing of seminal papers like \cite{Constantinou2012}.
+Historically, sports and game prediction models used statistical approaches - e.g. \cite{Clarke1995} \cite{Bailey2006}. But around the 2010s, as datasets grew even with comparitively-scarce computational resources \cite{Bottou2003}, the popularity of machine learning for the domain of sports analysis experienced a significant rise \cite{aiSports} with the publishing of seminal papers \cite{Constantinou2012} that influenced sports betting strategies.
 
 The use of logistic regression for prediction models has been explored by many researchers, because ``A common type of prediction problem is generalized linear regression, which includes linear regression, logistic regression, other generalized linear models'' \cite{Gordon1999}. Particularly of relevance to this research, logistic regression has been used to predict outcomes in many games, such as European-Football \cite{Prasetio2016}, where the authors achieved 69\% accuracy with just a few features and Ice Hockey \cite{Chin2023}, where logistic regression models outperformed Decision Tree, Support Vector Machine and Artificial Neural Network models used as benchmarks from prior work \cite{Pischedda2014} \cite{Igiri2014}.
 
@@ -385,13 +385,13 @@ As previously noted, as the ratings of players increase to master level, the occ
 
 \subsection{Future Work}
 
-\subsubsection{Additional Feature Enginearing}
+\subsubsection{Additional Feature Selection and Enginearing}
 \label{sec:feature-eng}
 Some of the features available in this dataset could provide additional predictive utility before a game has concluded. In particular, the \textbf{Moves} feature (Section~\ref{sec:features}) was not utilized in this research. One could imagine that as the game develops, advantages may become more apparent. Perhaps a model limited to incorporating the first 10 moves could have improved predictive accuracy without relying on features only present at the conclusion of the game.
 
 Another example of a feature in this dataset that could be explored further is \textbf{Opening ECO} (Section~\ref{sec:features}). For this research, the feature was encoded from a coded label of the specific strategy to the strategy's popularity in the dataset. During the analysis of these research reesults, it was considered that a better approach may have been to encode this field according to the relative success of the strategy. For example, strategies could have been encoded with a numerical rank that corresponded to how often the strategy resulted in a win for white. Additional encodings could be considered and evaluated.
 
-Finally, other datasets exist (e.g. Chess Base Database with over 8 million games \cite{chessBaseDb}) and may contain features that provide a better training environment.
+Finally, other datasets exist (e.g. Chess Base Database with over 8 million games \cite{chessBaseDb}) and may contain features that provide a better training environment. More rigorous approaches could be taken to select the most important features from an abundant set of irrelevant features (as a classic example, Winnow \cite{Littlestone1988}).
 
 \subsubsection{Multiclass Models}
 \label{sec:multiclass}
@@ -404,7 +404,7 @@ This research was limited to the exploration of two fundamental supervised machi
 With access to more compute power and one of the larger datasets available, datasets with millions of examples, it may be beneficial to try using a deep neural network. Deep Neural Networks may also provide benefits when considering high-dimensional dataset, such as the approach proposed in Section~\ref{sec:multiclass}.
 
 \subsubsection{Ensemble Learning}
-Ensemble Learners could be used to improve the accuracy of the algorithms explored in this research while reducing variance and bias \cite[Chapter 7, Section 7.5]{100MLB}. For example, Gradient boosting is a popular algorithm that combines several weak learners, like shallow decisiont trees into strong learners. Gradient Boosting can handle large, high-dimensional datasets and produce very accurate models \cite{greeksGeeksGB}. This algorithm has promise to further improve on the decision tree approach used in this research
+Ensemble Learners could be used to improve the accuracy of the algorithms explored in this research while reducing variance and bias \cite[Chapter 7, Section 7.5]{100MLB}. "Boosting" algorithms combine several weak learners, which approximate the unknown target function and boost or amplify the weak learners to achieve higher levels of accuracy \cite{Kearns1996}. Gradient Boosting is a popular example of such an algorithm and can handle large, high-dimensional datasets and produce very accurate models \cite{greeksGeeksGB}. This algorithm has promise to further improve on the decision tree approach used in this research
 
 % References in APA format
 \newpage

@@ -39,7 +39,7 @@
 \begin{titlepage}
     \centering
     \vspace*{2in}
-    {\Huge \bfseries Predicting the Winner of Chess Games Using Binary Classificaiton Machine Learning Models \\[2in]}
+    {\Huge \bfseries Predicting the Winner of Chess Games Using Binary Classification Machine Learning Models \\[2in]}
     {\Large Seth Schwiethale \\[0.5in]}
     {\Large December 2, 2024 \\}
     \vfill
@@ -60,7 +60,7 @@ To perform this analysis, multiple models were trained using two fundamental sup
 \section{Research Background}
 
 \subsection{Elo Ratings and Outcome Prediction}
-The Elo rating system was created by Arpad Elo and adopted by the U.S. Chess Federation in 1960. ``Each player's Elo rating is represented by a number that reflects that person's results in previous rated games. After each rated game, their ratings are adjusted according to the outcome of the encounter.'' \cite{chessElo}. Given the Elo rating of each player, the expected outcome can be calculated with the following formula:
+The Elo rating system was created by Arpad Elo and adopted by the US. Chess Federation in 1960. ``Each player's Elo rating is represented by a number that reflects that person's results in previous rated games. After each rated game, their ratings are adjusted according to the outcome of the encounter.'' \cite{chessElo}. Given the Elo rating of each player, the expected outcome can be calculated with the following formula:
 
 
 \[
@@ -71,11 +71,11 @@ Where $E_A$ is the expectation that player $A$ will win and $R_A$ and $R_B$ are 
 
 \subsection{Binary Classification}
 
-In Machine Learning, classification ``is a problem of automatcially assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two ("White wins", "Black wins"), such a classification problem is called binary classification \cite{Allwein2000}. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characterstics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw amongst the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurence of draws is much lower, less than 5\% in the data used in this analysis.
+In Machine Learning, classification ``is a problem of automatically assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two ("White wins", "Black wins"), such a classification problem is called binary classification \cite{Allwein2000}. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characteristics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw among the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurrence of draws is much lower, less than 5\% in the data used in this analysis.
 
 \subsection{Logistic Regression}
 
-Logistic Regression is a supervised binary classification learning alogorithm that uses the standard logistic function, often referred to as the sigmoid function $f_{\textbf{w},b}(\textbf{x})$, whose codomain is $(0, 1)$, to represent the probability that an example is labeled 1. Logistic Regression is trained on a dataset using maximum likelihood optimization by a numerical procedure, such as gradient descent \cite[Chapter 9, Section 9.3]{ShalevShwartz2014}.
+Logistic Regression is a supervised binary classification learning algorithm that uses the standard logistic function, often referred to as the sigmoid function $f_{\textbf{w},b}(\textbf{x})$, whose codomain is $(0, 1)$, to represent the probability that an example is labeled 1. Logistic Regression is trained on a dataset using maximum likelihood optimization by a numerical procedure, such as gradient descent \cite[Chapter 9, Section 9.3]{ShalevShwartz2014}.
 
 \[
 f_{\textbf{w},b}(\textbf{x}) := \frac{1}{1 + \exp(-(\langle\textbf{w}, \textbf{x}\rangle + b))}
@@ -98,7 +98,7 @@ LogL_{\textbf{w},b} =
 
 \subsection{Decision Trees}
 
-``A decision tree is an acyclic graph that can be used to make decisions'' \cite[Chapter 3, Section 3.3]{100MLB}. Each branch in a decision tree evaluates a feature in the example and branches left if the value is below a threshold and branches right, otherwise. Decisions trees for classification problems can be constsructed by supervised learning. ``The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features'' \cite{sklearnDT}. Starting with a root node, the data is split according to each feature and all corresponding thresholds for that feature. The feature and threshold whose resulting split has the largest reduction in entropy (largest information gain) is chosen as the branching feature for that node. The process is repeated recusively to construct the rest of the tree until a stopping condition is met.
+``A decision tree is an acyclic graph that can be used to make decisions'' \cite[Chapter 3, Section 3.3]{100MLB}. Each branch in a decision tree evaluates a feature in the example and branches left if the value is below a threshold and branches right, otherwise. Decisions trees for classification problems can be constructed by supervised learning. ``The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features'' \cite{sklearnDT}. Starting with a root node, the data is split according to each feature and all corresponding thresholds for that feature. The feature and threshold whose resulting split has the largest reduction in entropy (largest information gain) is chosen as the branching feature for that node. The process is repeated recursively to construct the rest of the tree until a stopping condition is met.
 
 Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decision-tree}, and unlike logistic regression models, decision trees are not sensitive to feature scaling.
 
@@ -127,12 +127,12 @@ Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decisi
 \label{fig:decision-tree}
 \end{figure}
 
-\subsubsection{Considerations}Decision trees can be biased (overfitting) if trained on unbalanced examples. Care must be taken to balance the dateset in preprocessing to reduce bias in the decision tree model.
+\subsubsection{Considerations}Decision trees can be biased (over-fitting) if trained on unbalanced examples. Care must be taken to balance the dateset in preprocessing to reduce bias in the decision tree model.
 
-\subsubsection{Limitations}Decision trees can become complex and are prone to overfitting the training data.
+\subsubsection{Limitations}Decision trees can become complex and are prone to over-fitting the training data.
 
 \subsection{Related Work}
-Historically, sports and game prediction models used statistical approaches - e.g. \cite{Clarke1995} \cite{Bailey2006}. But around the 2010s, as datasets grew even with comparitively-scarce computational resources \cite{Bottou2003}, the popularity of machine learning for the domain of sports analysis experienced a significant rise \cite{aiSports} with the publishing of seminal papers \cite{Constantinou2012} that influenced sports betting strategies.
+Historically, sports and game prediction models used statistical approaches - e.g. \cite{Clarke1995} \cite{Bailey2006}. But around the 2010s, as datasets grew even with comparatively-scarce computational resources \cite{Bottou2003}, the popularity of machine learning for the domain of sports analysis experienced a significant rise \cite{aiSports} with the publishing of seminal papers \cite{Constantinou2012} that influenced sports betting strategies.
 
 The use of logistic regression for prediction models has been explored by many researchers, because ``A common type of prediction problem is generalized linear regression, which includes linear regression, logistic regression, other generalized linear models'' \cite{Gordon1999}. Particularly of relevance to this research, logistic regression has been used to predict outcomes in many games, such as European-Football \cite{Prasetio2016}, where the authors achieved 69\% accuracy with just a few features and Ice Hockey \cite{Chin2023}, where logistic regression models outperformed Decision Tree, Support Vector Machine and Artificial Neural Network models used as benchmarks from prior work \cite{Pischedda2014} \cite{Igiri2014}.
 
@@ -143,7 +143,7 @@ A search for prior research of machine learning techniques applied to chess gene
 \section{Materials and Data Sources}
 \label{sec:dataset}
 
-Training and assessment of the chosen model types was performed using the Chess Game Dataset published at kaggle.com \cite{chessDataset}. The datset contains just over 20,000 games that were collected from the open-source online chess game server Lichess.org \cite{lichessOrg}. The dataset contains 16 raw features or columns with no missing values, Table~\ref{tab:features}.
+Training and assessment of the chosen model types was performed using the Chess Game Dataset published at kaggle.com \cite{chessDataset}. The dataset contains just over 20,000 games that were collected from the open-source online chess game server Lichess.org \cite{lichessOrg}. The dataset contains 16 raw features or columns with no missing values, Table~\ref{tab:features}.
 
 \subsection{Available Features}
 \label{sec:features}
@@ -166,7 +166,7 @@ $\textbf{White Player Rating}$ & Elo rating for player \\ \hline
 $\textbf{Black Player ID}$ & A string unique to a player \\ \hline
 $\textbf{Black Player Rating}$ & Elo rating for player \\ \hline
 $\textbf{Moves}$ & All Moves in Standard Chess Notation \\ \hline
-$\textbf{Opening Eco}$ & Standardised Code for any given opening strategy \\ \hline
+$\textbf{Opening Eco}$ & Standardized Code for any given opening strategy \\ \hline
 $\textbf{Opening Name}$ & A string representing the opening strategy \\ \hline
 $\textbf{Opening Ply}$ & Number of moves in the opening phase \\ \hline
 \end{tabular}
@@ -178,7 +178,7 @@ $\textbf{Opening Ply}$ & Number of moves in the opening phase \\ \hline
 As detailed below, different data preprocessing steps were performed for each learning algorithm, but in both cases, games with no winner were filtered from the dataset, leaving 19,108 examples. Additionally, the following features were either not included in either training dataset or were transformed:
 
 \begin{itemize}[label={}, leftmargin=0pt]
-  \item $\textbf{Drop: id}$ - The Game ID column is a unique identifier and doesn’t provide any predictive value. Including this feature would surely contribute to overfitting, since this unique set of values only exists in the training set.
+  \item $\textbf{Drop: id}$ - The Game ID column is a unique identifier and doesn’t provide any predictive value. Including this feature would surely contribute to over-fitting, since this unique set of values only exists in the training set.
   \item $\textbf{Drop: increment\_code}$ - This feature was mistakenly interpreted as the change in Elo rating after the game, so it was not included. Further discussion can be found in Section~\ref{sec:discussion}.
   \item $\textbf{Drop: white\_id and black\_id}$ - The specific goal of the research was to evaluate models that can generalize well, without knowing specifically who the player is.
   \item $\textbf{Transform: created\_at and last\_move\_at}$ - The start and end time were decided to be less predictive than the duration of a game, so these two columns were transformed into a new column: $\textbf{duration}$.
@@ -189,7 +189,7 @@ As detailed below, different data preprocessing steps were performed for each le
 
 \section{Research and Methods}
 \label{sec:methods}
-For this research, implementations of logistic regression and decision tree learning algorithms from scikit learn, the Python machine learning library, were used. Before training each model, some preprocessing of data was performed to optimize the performance of the respective learning algorithm. For each algorithm, multiple models were trained with varying feature sets. For decision trees, the hyperparameters were also tuned for optimal performance. Each model was evaluated by the metrics: Accuracy, precision, recall and F1 Score. The most accurate model from each algorithm is compared in Section~\ref{sec:results}.
+For this research, implementations of logistic regression and decision tree learning algorithms from scikit learn, the Python machine learning library, were used. Before training each model, some preprocessing of data was performed to optimize the performance of the respective learning algorithm. For each algorithm, multiple models were trained with varying feature sets. For decision trees, the hyper-parameters were also tuned for optimal performance. Each model was evaluated by the metrics: Accuracy, precision, recall and F1 Score. The most accurate model from each algorithm is compared in Section~\ref{sec:results}.
 
 \subsection{Logistic Regression Model Training}
 
@@ -197,7 +197,7 @@ For this research, implementations of logistic regression and decision tree lear
 
 \noindent\textbf{Encoding and Normalizing Numerical Features}
 
-In order to optimize the performance of the logistic regression learner, the following steps were taken to preprocess the dataset before training. Generally, this included: removing columns with no meaningful predictive value for this research's purpose, encoding string-based features to numerical features on a case-by-case basis, normalizing resulting features and checking for multicollinearity amongst remaining features.
+In order to optimize the performance of the logistic regression learner, the following steps were taken to preprocess the dataset before training. Generally, this included: removing columns with no meaningful predictive value for this research's purpose, encoding string-based features to numerical features on a case-by-case basis, normalizing resulting features and checking for multicollinearity among remaining features.
 
 
 \begin{itemize}[label={}, leftmargin=0pt]
@@ -246,7 +246,7 @@ The dataset was split into training and testing sets, 80\% and 20\%, respectivel
 \subsection{Decision Tree Model Training}
 
 \subsubsection{Data Preprocessing}
-Less preprocessing was required for the decision tree learner than was for the logistic regression learner because decision trees are not sensitive to feature scaling. However, while decision trees can theoretically handle both numerical and categorical data, the scikit-learn implementation does not support catergorical variables \cite{sklearnDT} (scikit-learn uses an optimized version of CART \cite{classificationTrees1984}), so features of interest with categorical representations were encoded with an appropriate numerical representation.
+Less preprocessing was required for the decision tree learner than was for the logistic regression learner because decision trees are not sensitive to feature scaling. However, while decision trees can theoretically handle both numerical and categorical data, the scikit-learn implementation does not support categorical variables \cite{sklearnDT} (scikit-learn uses an optimized version of CART \cite{classificationTrees1984}), so features of interest with categorical representations were encoded with an appropriate numerical representation.
 
 \begin{itemize}[label={}, leftmargin=0pt]
   \item \textbf{Encode: rated} - boolean feature encoded to $False \rightarrow 0$ and $True \rightarrow 1$
@@ -255,7 +255,7 @@ Less preprocessing was required for the decision tree learner than was for the l
 \end{itemize}
 
 \subsubsection{Training and Evaluation}
-The dataset was split into training and testing sets, 80\% and 20\%, respectively. The scikit-learn DecisionTree implementation was used to fit the models to the training data. Many models were produced, each using a different set of features. Additionally, the scikit-learn's $GridSearchCV$ \cite{sklearnGSCV} algorithm was used to perform an exhaustive search for optimum hyperparameters: $max\_depth$, $min\_samples\_split$, $min\_samples\_leaf$ and $max\_features$. Each model was evaluated with the testing set, using the metrics: Accuracy, precision, recall and F1 Score.
+The dataset was split into training and testing sets, 80\% and 20\%, respectively. The scikit-learn DecisionTree implementation was used to fit the models to the training data. Many models were produced, each using a different set of features. Additionally, the scikit-learn's $GridSearchCV$ \cite{sklearnGSCV} algorithm was used to perform an exhaustive search for optimum hyper-parameters: $max\_depth$, $min\_samples\_split$, $min\_samples\_leaf$ and $max\_features$. Each model was evaluated with the testing set, using the metrics: Accuracy, precision, recall and F1 Score.
 
 
 \section{Results}
@@ -371,7 +371,7 @@ $\textbf{F1 Score}$ & $0.80$ \\ \hline
 \section{Discussion and Conclusions}
 \label{sec:discussion}
 
-The aim of this research was to evaluate whether a machine learning algorithm could incorporate features of a chess game to improve upon the outcome prediction accuracy of Elo ratings alone. First, the accuracy of an Elo rating-based heuristic was assessed using the Chess Game Dataset (Lichess), detailed in Section~\ref{sec:dataset}. Next, to accomplish the goal of this effort, two classification learning algorithms were explored: logistic regression and decision trees. As detailed in Section~\ref{sec:methods}, many models were built, using varying feature sets and hyperparameter values, to yield candidate models with the best accuracy. No logistic regression model was found to improve upon the Elo heuristic approach. However, decision tree models were trained with higher outcome prediction accuracy, the best of which yielding an F1 Score of $80\%$ when evaluated with the testing portion of the dataset.
+The aim of this research was to evaluate whether a machine learning algorithm could incorporate features of a chess game to improve upon the outcome prediction accuracy of Elo ratings alone. First, the accuracy of an Elo rating-based heuristic was assessed using the Chess Game Dataset (Lichess), detailed in Section~\ref{sec:dataset}. Next, to accomplish the goal of this effort, two classification learning algorithms were explored: logistic regression and decision trees. As detailed in Section~\ref{sec:methods}, many models were built, using varying feature sets and hyper-parameter values, to yield candidate models with the best accuracy. No logistic regression model was found to improve upon the Elo heuristic approach. However, decision tree models were trained with higher outcome prediction accuracy, the best of which yielding an F1 Score of $80\%$ when evaluated with the testing portion of the dataset.
 
 These results suggest that supervised machine learning algorithms can in fact be trained to make more accurate chess game outcome predictions than predicting the outcome based solely on Elo ratings. The implications of these results present both limitations and opportunities, which are discussed below.
 
@@ -380,22 +380,22 @@ These results suggest that supervised machine learning algorithms can in fact be
 \subsubsection{Features Used Entail the Game has Ended}
 Most of the features available for training had a temporal dimension, meaning they represented information known only after a game had begun (e.g. \textbf{Opening ECO}) or ended (e.g. \textbf{Number of Turns}). While this research demonstrated that incorporating details about a game in addition to the players' Elo ratings could yield more accurate outcome predictions, the models that were produced generally rely on the fact that the game has been concluded. This assumption places constraints and limitations on the practical application of such models. One can imagine outcome prediction applications that are relevant only before a game has occurred or ended, such as estimating betting odds. The models produced in this research would not have value for such applications. However, this observation does not preclude the possibility of identifying other game features that may be successfully used to train models designed for these applications, but further research would be required. Specific considerations are detailed in Section~\ref{sec:feature-eng}.
 
-\subsubsection{Correlation of Draw Occurence and Player Rating}
-As previously noted, as the ratings of players increase to master level, the occurence of draw outcomes greatly increases. This research limited its models to binary classifiers, focusing solely on models that would produce a winner. Such models are inherently less-accurate when the Elo ratings of players are exceptionally high. Multiclass classifier models would likely be needed to account for this phenomenon. Specific considerations are detailed in Section~\ref{sec:multiclass}.
+\subsubsection{Correlation of Draw Occurrence and Player Rating}
+As previously noted, as the ratings of players increase to master level, the occurrence of draw outcomes greatly increases. This research limited its models to binary classifiers, focusing solely on models that would produce a winner. Such models are inherently less-accurate when the Elo ratings of players are exceptionally high. Multi-class classifier models would likely be needed to account for this phenomenon. Specific considerations are detailed in Section~\ref{sec:multiclass}.
 
 \subsection{Future Work}
 
-\subsubsection{Additional Feature Selection and Enginearing}
+\subsubsection{Additional Feature Selection and Engineering}
 \label{sec:feature-eng}
 Some of the features available in this dataset could provide additional predictive utility before a game has concluded. In particular, the \textbf{Moves} feature (Section~\ref{sec:features}) was not utilized in this research. One could imagine that as the game develops, advantages may become more apparent. Perhaps a model limited to incorporating the first 10 moves could have improved predictive accuracy without relying on features only present at the conclusion of the game.
 
-Another example of a feature in this dataset that could be explored further is \textbf{Opening ECO} (Section~\ref{sec:features}). For this research, the feature was encoded from a coded label of the specific strategy to the strategy's popularity in the dataset. During the analysis of these research reesults, it was considered that a better approach may have been to encode this field according to the relative success of the strategy. For example, strategies could have been encoded with a numerical rank that corresponded to how often the strategy resulted in a win for white. Additional encodings could be considered and evaluated.
+Another example of a feature in this dataset that could be explored further is \textbf{Opening ECO} (Section~\ref{sec:features}). For this research, the feature was encoded from a coded label of the specific strategy to the strategy's popularity in the dataset. During the analysis of these research results, it was considered that a better approach may have been to encode this field according to the relative success of the strategy. For example, strategies could have been encoded with a numerical rank that corresponded to how often the strategy resulted in a win for white. Additional encodings could be considered and evaluated.
 
 Finally, other datasets exist (e.g. Chess Base Database with over 8 million games \cite{chessBaseDb}) and may contain features that provide a better training environment. More rigorous approaches could be taken to select the most important features from an abundant set of irrelevant features (as a classic example, Winnow \cite{Littlestone1988}).
 
-\subsubsection{Multiclass Models}
+\subsubsection{Multi-class Models}
 \label{sec:multiclass}
-To improve accuracy, especially when predicting the outcome of chess games between higher-rated players, multiclass classifiers could be trained to include the three possible chess game outcomes: \textbf{White Wins}, \textbf{Black Wins} and \textbf{Draw}. To accomplish this, a larger dataset would be required; one that includes more games from players of higher rating to provide balanced examples of all outcomes (the dataset used for this research contained less than $5\%$ draws). Such an expanded dataset may present its own challenges, such as introducing bias toward more-advanced game play (models trained mostly on master-level games would not generalize well for lower-level players).
+To improve accuracy, especially when predicting the outcome of chess games between higher-rated players, multi-class classifiers could be trained to include the three possible chess game outcomes: \textbf{White Wins}, \textbf{Black Wins} and \textbf{Draw}. To accomplish this, a larger dataset would be required; one that includes more games from players of higher rating to provide balanced examples of all outcomes (the dataset used for this research contained less than $5\%$ draws). Such an expanded dataset may present its own challenges, such as introducing bias toward more-advanced game play (models trained mostly on master-level games would not generalize well for lower-level players).
 
 \subsubsection{Explore Additional Machine Learning Algorithms}
 This research was limited to the exploration of two fundamental supervised machine learning classification models. Further research could investigate more advanced models, including but not limited to deep neural networks and ensemble learners.

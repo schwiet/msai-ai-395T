@@ -13,6 +13,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{amsmath}
 \usetikzlibrary{arrows.meta, shapes.geometric}
 
 \renewcommand{\baselinestretch}{1.25} 
@@ -71,7 +72,7 @@ Where $E_A$ is the expectation that player $A$ will win and $R_A$ and $R_B$ are 
 
 \subsection{Binary Classification}
 
-In Machine Learning, classification ``is a problem of automatically assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two ("White wins", "Black wins"), such a classification problem is called binary classification \cite{Allwein2000}. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characteristics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw among the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurrence of draws is much lower, less than 5\% in the data used in this analysis.
+In Machine Learning, classification ``is a problem of automatically assigning a label to an unlabeled example'' \cite[Chapter 2, Section 2.7]{100MLB}. If the number of possible labels is two (``White wins'', ``Black wins''), such a classification problem is called binary classification \cite{Allwein2000}. Though there are three possible outcomes to a chess game: White wins, Black wins or Draw, this study aims specifically to predict a winner, given some set of features describing the characteristics of a specific game, making it a binary classification problem. It is worth noting that, although about 50\% of games end in a draw among the highest-rated players \cite{chessBaseDraws}, most of the world's chess players are not professionals and the occurrence of draws is much lower, less than 5\% in the data used in this analysis.
 
 \subsection{Logistic Regression}
 
@@ -189,7 +190,7 @@ As detailed below, different data preprocessing steps were performed for each le
 
 \section{Research and Methods}
 \label{sec:methods}
-For this research, implementations of logistic regression and decision tree learning algorithms from scikit learn, the Python machine learning library, were used. Before training each model, some preprocessing of data was performed to optimize the performance of the respective learning algorithm. For each algorithm, multiple models were trained with varying feature sets. For decision trees, the hyper-parameters were also tuned for optimal performance. Each model was evaluated by the metrics: Accuracy, precision, recall and F1 Score. The most accurate model from each algorithm is compared in Section~\ref{sec:results}.
+For this research, implementations of logistic regression and decision tree learning algorithms from scikit learn, the Python machine learning library, were used. Before training each model, some preprocessing of data was performed to optimize the performance of the respective learning algorithm. For each algorithm, multiple models were trained with varying feature sets. For decision trees, the hyperparameters were also tuned for optimal performance. Each model was evaluated by the metrics: Accuracy, precision, recall and F1 Score. The most accurate model from each algorithm is compared in Section~\ref{sec:results}.
 
 \subsection{Logistic Regression Model Training}
 
@@ -243,6 +244,25 @@ $\textbf{opening\_eco\_encoded}$ and $\textbf{opening\_ply}$ are also moderately
 
 The dataset was split into training and testing sets, 80\% and 20\%, respectively. The scikit-learn LogisticRegression implementation was used to fit the models to the training data. Many models were produced, each using a different set of features. Each model was evaluated with the testing set, using the metrics: Accuracy, precision, recall and F1 Score.
 
+\begin{itemize}[label={}, leftmargin=0pt]
+  \item \textbf{Accuracy}: the ratio of correctly-made predictions to the total number of examples
+\[
+    \textbf{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}
+\]
+  \item \textbf{Precision}: The ratio of correctly-made positive predictions
+\[
+    \textbf{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
+\]
+  \item \textbf{Recall}: The ration of positive predictions to the total number of positive examples
+\[
+    \textbf{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+\]
+  \item \textbf{F1 Score}: A measure of a binary classifier's predictive performance, derived from \textbf{Precision} and \textbf{Recall}
+\[
+    \textbf{F1 Score} = \frac{2\text{TP}}{2\text{TP} + \text{FP} + \text{FN}}
+\]
+\end{itemize}
+
 \subsection{Decision Tree Model Training}
 
 \subsubsection{Data Preprocessing}
@@ -255,7 +275,7 @@ Less preprocessing was required for the decision tree learner than was for the l
 \end{itemize}
 
 \subsubsection{Training and Evaluation}
-The dataset was split into training and testing sets, 80\% and 20\%, respectively. The scikit-learn DecisionTree implementation was used to fit the models to the training data. Many models were produced, each using a different set of features. Additionally, the scikit-learn's $GridSearchCV$ \cite{sklearnGSCV} algorithm was used to perform an exhaustive search for optimum hyper-parameters: $max\_depth$, $min\_samples\_split$, $min\_samples\_leaf$ and $max\_features$. Each model was evaluated with the testing set, using the metrics: Accuracy, precision, recall and F1 Score.
+The dataset was split into training and testing sets, 80\% and 20\%, respectively. The scikit-learn DecisionTree implementation was used to fit the models to the training data. Many models were produced, each using a different set of features. Additionally, the scikit-learn's $GridSearchCV$ \cite{sklearnGSCV} algorithm was used to perform an exhaustive search for optimum hyperparameters: $max\_depth$, $min\_samples\_split$, $min\_samples\_leaf$ and $max\_features$. Each model was evaluated with the testing set, using the metrics: Accuracy, precision, recall and F1 Score.
 
 
 \section{Results}
@@ -371,7 +391,7 @@ $\textbf{F1 Score}$ & $0.80$ \\ \hline
 \section{Discussion and Conclusions}
 \label{sec:discussion}
 
-The aim of this research was to evaluate whether a machine learning algorithm could incorporate features of a chess game to improve upon the outcome prediction accuracy of Elo ratings alone. First, the accuracy of an Elo rating-based heuristic was assessed using the Chess Game Dataset (Lichess), detailed in Section~\ref{sec:dataset}. Next, to accomplish the goal of this effort, two classification learning algorithms were explored: logistic regression and decision trees. As detailed in Section~\ref{sec:methods}, many models were built, using varying feature sets and hyper-parameter values, to yield candidate models with the best accuracy. No logistic regression model was found to improve upon the Elo heuristic approach. However, decision tree models were trained with higher outcome prediction accuracy, the best of which yielding an F1 Score of $80\%$ when evaluated with the testing portion of the dataset.
+The aim of this research was to evaluate whether a machine learning algorithm could incorporate features of a chess game to improve upon the outcome prediction accuracy of Elo ratings alone. First, the accuracy of an Elo rating-based heuristic was assessed using the Chess Game Dataset (Lichess), detailed in Section~\ref{sec:dataset}. Next, to accomplish the goal of this effort, two classification learning algorithms were explored: logistic regression and decision trees. As detailed in Section~\ref{sec:methods}, many models were built, using varying feature sets and hyperparameter values, to yield candidate models with the best accuracy. No logistic regression model was found to improve upon the Elo heuristic approach. However, decision tree models were trained with higher outcome prediction accuracy, the best of which yielding an F1 Score of $80\%$ when evaluated with the testing portion of the dataset.
 
 These results suggest that supervised machine learning algorithms can in fact be trained to make more accurate chess game outcome predictions than predicting the outcome based solely on Elo ratings. The implications of these results present both limitations and opportunities, which are discussed below.
 
@@ -404,7 +424,7 @@ This research was limited to the exploration of two fundamental supervised machi
 With access to more compute power and one of the larger datasets available, datasets with millions of examples, it may be beneficial to try using a deep neural network. Deep Neural Networks may also provide benefits when considering high-dimensional dataset, such as the approach proposed in Section~\ref{sec:multiclass}.
 
 \subsubsection{Ensemble Learning}
-Ensemble Learners could be used to improve the accuracy of the algorithms explored in this research while reducing variance and bias \cite[Chapter 7, Section 7.5]{100MLB}. "Boosting" algorithms combine several weak learners, which approximate the unknown target function and boost or amplify the weak learners to achieve higher levels of accuracy \cite{Kearns1996}. Gradient Boosting is a popular example of such an algorithm and can handle large, high-dimensional datasets and produce very accurate models \cite{greeksGeeksGB}. This algorithm has promise to further improve on the decision tree approach used in this research
+Ensemble Learners could be used to improve the accuracy of the algorithms explored in this research while reducing variance and bias \cite[Chapter 7, Section 7.5]{100MLB}. ``Boosting'' algorithms combine several weak learners, which approximate the unknown target function and boost or amplify the weak learners to achieve higher levels of accuracy \cite{Kearns1996}. Gradient Boosting is a popular example of such an algorithm and can handle large, high-dimensional datasets and produce very accurate models \cite{greeksGeeksGB}. This algorithm has promise to further improve on the decision tree approach used in this research
 
 % References in APA format
 \newpage

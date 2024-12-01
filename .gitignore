@@ -5,4 +5,6 @@
 *.log
 *.toc
 *.pdf
+*.docx
+*.csl
 *.DS_Store

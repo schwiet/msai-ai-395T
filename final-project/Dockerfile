@@ -14,10 +14,8 @@ RUN apt-get update && \
     texlive-latex-extra \
     texlive-pictures \
     texlive-bibtex-extra \
+    pandoc \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Clean up unnecessary files to reduce image size
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Reset the frontend
 ENV DEBIAN_FRONTEND=

@@ -42,7 +42,7 @@
     \vspace*{2in}
     {\Huge \bfseries Predicting the Winner of Chess Games Using Binary Classification Machine Learning Models \\[2in]}
     {\Large Seth Schwiethale \\[0.5in]}
-    {\Large December 2, 2024 \\}
+    {\Large December 1, 2024 \\}
     \vfill
 \end{titlepage}
 
@@ -54,14 +54,14 @@
 \section{Introduction}
 Chess has been one of the world's most popular games for centuries. Over 10 years ago, it was estimated that 605 million adults regularly play chess \cite{fidePressRelease2012}. In the intervening years, the popularity of the game has continued to grow alongside the growth of online gaming where Chess.com alone surpassed 20 million members in 2017 \cite{chessMembers}. With so many chess players around the world, when two meet, how might one predict the winner of the game? This paper compares the application of two Machine Learning binary classification algorithms to this question.
 
-Chess competitions and online platforms commonly use the Elo rating system to indicate the relative skill level of players. Elo ratings can be used to predict the outcome of a match \cite{chessElo}. While Elo ratings are calculated based on the outcomes of previous games, the question is whether a learning algorithm can incorporate additional features of a game to improve upon the prediction accuracy of Elo alone.
+Chess competitions and online platforms commonly use the Elo rating system to indicate the relative skill level of players. Elo ratings can be used to predict the outcome of a match \cite[Elo Rating System]{chessElo}. While Elo ratings are calculated based on the outcomes of previous games, the question is whether a learning algorithm can incorporate additional features of a game to improve upon the prediction accuracy of Elo alone.
 
 To perform this analysis, multiple models were trained using two fundamental supervised classification Machine Learning algorithms: Logistic Regression and Decision Trees. The accuracy of these models were then compared to each other and to the accuracy of predictions made based solely on each player's Elo rating.
 
 \section{Research Background}
 
 \subsection{Elo Ratings and Outcome Prediction}
-The Elo rating system was created by Arpad Elo and adopted by the US. Chess Federation in 1960. ``Each player's Elo rating is represented by a number that reflects that person's results in previous rated games. After each rated game, their ratings are adjusted according to the outcome of the encounter.'' \cite{chessElo}. Given the Elo rating of each player, the expected outcome can be calculated with the following formula:
+The Elo rating system was created by Arpad Elo and adopted by the US. Chess Federation in 1960. ``Each player's Elo rating is represented by a number that reflects that person's results in previous rated games. After each rated game, their ratings are adjusted according to the outcome of the encounter.'' \cite[Elo Rating System]{chessElo}. Given the Elo rating of each player, the expected outcome can be calculated with the following formula:
 
 
 \[
@@ -79,7 +79,7 @@ In Machine Learning, classification ``is a problem of automatically assigning a 
 Logistic Regression is a supervised binary classification learning algorithm that uses the standard logistic function, often referred to as the sigmoid function $f_{\textbf{w},b}(\textbf{x})$, whose codomain is $(0, 1)$, to represent the probability that an example is labeled 1. Logistic Regression is trained on a dataset using maximum likelihood optimization by a numerical procedure, such as gradient descent \cite[Chapter 9, Section 9.3]{ShalevShwartz2014}.
 
 \[
-f_{\textbf{w},b}(\textbf{x}) := \frac{1}{1 + \exp(-(\langle\textbf{w}, \textbf{x}\rangle + b))}
+f(\textbf{z}) := \frac{1}{1 + \exp(-z)}
 \]
 
 where $z$ is the inner product of two vectors, the example's features $\textbf{x}$ and the model's learned parameters $\textbf{w}$ plus parameter $b$: $z = \langle\textbf{w}, \textbf{x}\rangle + b$. During training, the log-likelihood $LogL_{\textbf{w},b}$ is maximized for the model's parameters:
@@ -101,9 +101,9 @@ LogL_{\textbf{w},b} =
 
 ``A decision tree is an acyclic graph that can be used to make decisions'' \cite[Chapter 3, Section 3.3]{100MLB}. Each branch in a decision tree evaluates a feature in the example and branches left if the value is below a threshold and branches right, otherwise. Decisions trees for classification problems can be constructed by supervised learning. ``The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features'' \cite{sklearnDT}. Starting with a root node, the data is split according to each feature and all corresponding thresholds for that feature. The feature and threshold whose resulting split has the largest reduction in entropy (largest information gain) is chosen as the branching feature for that node. The process is repeated recursively to construct the rest of the tree until a stopping condition is met.
 
-Decision tree are easy to visually interpret As shown, in Figure~\ref{fig:decision-tree}, and unlike logistic regression models, decision trees are not sensitive to feature scaling.
+Decision tree are easy to visually interpret, as shown in Figure~\ref{fig:decision-tree}. And unlike logistic regression models, decision trees are not sensitive to feature scaling.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[
   edge from parent/.style = {draw, -{Latex}},
@@ -139,7 +139,7 @@ The use of logistic regression for prediction models has been explored by many r
 
 Decision Trees have also been researched in relation to predicting the outcome of other games, such as Cricket \cite{Kumar2018}, where the authors' decision tree model had an accuracy of $55.1\%$ and football \cite{Jaeyalakshmi2023}, where the authors built a model with $67.9\%$ accuracy.
 
-A search for prior research of machine learning techniques applied to chess generally yielded research focused on creating chess-playing engines, AI that can predict the best next move for in-game competitve play; a problem not closely related to the aim of this research. This paper evaluates logistic regression and decision trees in a way that is similar to the research referenced above, but applied to the game of chess, which differs in many ways from the sports for which most similar analysis has been done.
+A search for prior research of machine learning techniques applied to chess generally yielded research focused on creating chess-playing engines, AI that can predict the best next move for in-game competitive play; a problem not closely related to the aim of this research. This paper evaluates logistic regression and decision trees in a way that is similar to the research referenced above, but applied to the game of chess, which differs in many ways from the sports for which most similar analysis has been done.
 
 \section{Materials and Data Sources}
 \label{sec:dataset}
@@ -231,7 +231,7 @@ Next, the preprocessed features were analyzed for multicollinearity with a corre
 
 The ratings for black and white players were unsurprisingly correlated (in online games, players of similar experience tend to play each other). These features were not used to train the model. The rating difference between players was used, instead.
 
-$\textbf{opening\_eco\_encoded}$ and $\textbf{opening\_ply}$ are also moderately correlated, so PCA was applied to reduce dimensionality in the data set. The principal component of these two features was given the name $\textbf{pca\_opening\_features}$. The resulting correlation matrix is shown in Figure~\ref{fig:corr-matrix-2}.
+$\textbf{opening\_eco\_encoded}$ and $\textbf{opening\_ply}$ are also moderately correlated, so PCA was applied to reduce dimensionality in the dataset. The principal component of these two features was given the name $\textbf{pca\_opening\_features}$. The resulting correlation matrix is shown in Figure~\ref{fig:corr-matrix-2}.
 
 \begin{figure}[H]
 \centering
@@ -253,7 +253,7 @@ The dataset was split into training and testing sets, 80\% and 20\%, respectivel
 \[
     \textbf{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
 \]
-  \item \textbf{Recall}: The ration of positive predictions to the total number of positive examples
+  \item \textbf{Recall}: The ratio of positive predictions to the total number of positive examples
 \[
     \textbf{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
 \]
@@ -296,7 +296,7 @@ This baseline evaluation was performed over the entire dataset, minus rows with 
 
 \subsubsection{Evaluation}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -319,7 +319,7 @@ $\textbf{F1 Score}$ & $0.65$ \\ \hline
 \subsection{Logistic Regression}
 
 \subsubsection{Method}
-Several Models with differing sets of features were trained and evaluated. The model with the highest accuracy was trained with the following features:
+Several models with differing sets of features were trained and evaluated. The model with the highest accuracy was trained with the following features:
 
 \begin{itemize}
   \item\textit{turns\_normalized}
@@ -331,7 +331,7 @@ Several Models with differing sets of features were trained and evaluated. The m
 
 \subsubsection{Evaluation}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -367,7 +367,7 @@ Many Decision Tree models were built, trained with different sets of features an
 
 \subsubsection{Evaluation}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -420,15 +420,15 @@ To improve accuracy, especially when predicting the outcome of chess games betwe
 \subsubsection{Explore Additional Machine Learning Algorithms}
 This research was limited to the exploration of two fundamental supervised machine learning classification models. Further research could investigate more advanced models, including but not limited to deep neural networks and ensemble learners.
 
-\subsubsection{Deep Neural Networks}
-With access to more compute power and one of the larger datasets available, datasets with millions of examples, it may be beneficial to try using a deep neural network. Deep Neural Networks may also provide benefits when considering high-dimensional dataset, such as the approach proposed in Section~\ref{sec:multiclass}.
+\begin{itemize}[label={}, leftmargin=0pt]
+  \item\textbf{Deep Neural Networks}: With access to more compute power and one of the larger datasets available, datasets with millions of examples, it may be beneficial to try using a deep neural network. Deep Neural Networks may also provide benefits when considering high-dimensional dataset, such as the approach proposed in Section~\ref{sec:multiclass}.
 
-\subsubsection{Ensemble Learning}
-Ensemble Learners could be used to improve the accuracy of the algorithms explored in this research while reducing variance and bias \cite[Chapter 7, Section 7.5]{100MLB}. ``Boosting'' algorithms combine several weak learners, which approximate the unknown target function and boost or amplify the weak learners to achieve higher levels of accuracy \cite{Kearns1996}. Gradient Boosting is a popular example of such an algorithm and can handle large, high-dimensional datasets and produce very accurate models \cite{greeksGeeksGB}. This algorithm has promise to further improve on the decision tree approach used in this research
+  \item\textbf{Ensemble Learning}: Ensemble Learners could be used to improve the accuracy of the algorithms explored in this research while reducing variance and bias \cite[Chapter 7, Section 7.5]{100MLB}. ``Boosting'' algorithms combine several weak learners, which approximate the unknown target function and boost or amplify the weak learners to achieve higher levels of accuracy \cite{Kearns1996}. Gradient Boosting is a popular example of such an algorithm and can handle large, high-dimensional datasets and produce very accurate models \cite{greeksGeeksGB}. This algorithm has promise to further improve on the decision tree approach used in this research
+\end{itemize}
 
 % References in APA format
 \newpage
 \bibliographystyle{apacite}
-\bibliography{references}  % Ensure there is a file named references.bib with your bibliography entries.
+\bibliography{references}
 
 \end{document}
